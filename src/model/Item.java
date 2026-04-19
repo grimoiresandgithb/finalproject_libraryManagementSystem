@@ -6,11 +6,12 @@ public abstract class Item {
     protected int id;
     protected String title;
     protected boolean available;
-
+    
     public Item() {
-        this.available = true;
+    	
     }
 
+   
     public Item(int id, String title, boolean available) {
         this.id = id;
         this.title = title;

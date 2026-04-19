@@ -6,7 +6,9 @@ public abstract class User {
     protected String name;
     protected String email;
 
-    public User() {}
+    public User() {
+   
+    }
 
     public User(int userId, String name, String email) {
         this.userId = userId;

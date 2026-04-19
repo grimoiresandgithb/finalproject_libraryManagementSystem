@@ -7,10 +7,9 @@ public class Member extends User {
 
     private String membershipType;
     private List<Loan> loans;
-
+    
     public Member() {
-        super();
-        this.loans = new ArrayList<>();
+    	super();
     }
 
     public Member(int userId, String name, String email, String membershipType) {

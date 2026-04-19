@@ -30,7 +30,7 @@ public class DatabaseConnection {
     private static final int    PORT     = 3306;
     private static final String DATABASE = "library_db";
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "";          // <-- update for setup
+    private static final String PASSWORD = "password";          // <-- update for setup
 
     private static final String URL =
             "jdbc:mariadb://" + SERVER + ":" + PORT + "/" + DATABASE;

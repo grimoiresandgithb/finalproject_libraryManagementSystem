@@ -9,7 +9,7 @@ import data.LoanManager;
 import data.UserManager;
 import exception.InvalidInputException;
 import exception.ItemNotFoundException;
-import exception.ItemUnavailableException;
+import exception.ItemNotAvailableException;
 import exception.UserNotFoundException;
 import model.Book;
 import model.DVD;
@@ -482,7 +482,7 @@ public class Main {
             System.out.println(loan);
         } catch (UserNotFoundException
                 | ItemNotFoundException
-                | ItemUnavailableException
+                | ItemNotAvailableException
                 | InvalidInputException e) {
             System.err.println("Error: " + e.getMessage());
         }

@@ -7,7 +7,7 @@ import data.ItemManager;
 import data.LoanManager;
 import data.UserManager;
 import exception.ItemNotFoundException;
-import exception.ItemUnavailableException;
+import exception.ItemNotAvailableException;
 import exception.UserNotFoundException;
 import model.Item;
 import model.Loan;
@@ -52,7 +52,7 @@ public class LibraryService {
     public Loan checkoutItem(int memberId, int itemId)
             throws UserNotFoundException,
                    ItemNotFoundException,
-                   ItemUnavailableException {
+                   ItemNotAvailableException {
 
         User user = userManager.getById(memberId);
         if (!(user instanceof Member)) {
@@ -63,7 +63,7 @@ public class LibraryService {
 
         Item item = itemManager.getById(itemId);
         if (!item.isAvailable()) {
-            throw new ItemUnavailableException(item.getId(), item.getTitle());
+            throw new ItemNotAvailableException(item.getId(), item.getTitle());
         }
 
         LocalDate today = LocalDate.now();
