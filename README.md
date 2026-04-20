@@ -53,6 +53,10 @@ always close, even on errors.
 Install MariaDB locally (https://mariadb.org/download/) and make sure the
 server is running. Default port is 3306.
 
+### 3. Install a lightweight GUI for MariaDB, such as HeidiSQL
+
+Install HeidiSQL (https://www.heidisql.com/) to manager MariaDB, and for ease of use running the `schema.sql` file.
+
 ### 2. Create the Database
 
 Run `schema.sql` to create the database, tables, and sample
