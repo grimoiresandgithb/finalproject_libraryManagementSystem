@@ -5,24 +5,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-<<<<<<< HEAD
-import java.sql.Types;
-import java.util.ArrayList;
-import java.util.List;
-
-=======
 import java.util.ArrayList;
 import java.util.List;
 
 import exception.UserNotFoundException;
->>>>>>> project-branch-1
 import interfaces.Manageable;
 import interfaces.Searchable;
 import model.Librarian;
 import model.Member;
 import model.User;
 
-<<<<<<< HEAD
 /**
  * Handles all CRUD operations for User objects (Member + Librarian)
  * Implements:
@@ -34,191 +26,10 @@ import model.User;
  * 	- Convery SQL rows into Member or Librarian objects
  * 	- Keyword search by name
  */
-public class UserManager implements Manageable<User>, Searchable<User>{
-	
-	private Connection conn;
-	
-	public UserManager() {
-		this.conn = DatabaseConnection.getConnection();
-	}
-	
-	/**
-	 * Adds a Member or Librarian to the database
-	 * Uses user.getUserType() to determine which fields to populate
-	 */
-	@Override
-	public void add(User user) {
-		String sql = "INSERT INTO users (name, email, user_type, membership_type, employee_id) "
-                + "VALUES (?, ?, ?, ?, ?)";
-		
-		try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-			
-			stmt.setString(1,  user.getName());
-			stmt.setString(2,  user.getEmail());
-			stmt.setString(3,  user.getUserType());
-			
-			if (user instanceof Member member) {
-				stmt.setString(4,  member.getMembershipType());
-				stmt.setNull(5,  Types.VARCHAR);
-			} else if (user instanceof Librarian librarian) {
-				stmt.setNull(4,  Types.VARCHAR);
-				stmt.setSting(5, librarian.getEmployeeId());
-			}
-			
-		} catch (SQLException e) {
-			System.out.println("Falied to add user: " + user + " \n" + e.getMessage());
-		}
-	} // end add
-	
-	/**
-	 * Retrieves a user by ID
-	 * Automatically returns a Member or Librarian depending on user_type
-	 */
-	@Override
-	public User getById(int id) {
-		String sql = "SELECT * FROM users WHERE user_id = ?";
-		
-		try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-			stmt.setInt(1, id);
-			
-			ResultSet rs = stmt.executeQuery();
-			if (rs.next()) {
-				return mapRowToUser(rs);
-			}
-			
-		} catch (SQLException e) {
-			System.out.println("Failed to fetch user id: " + id + "\n" + e.getMessage());
-		}
-		
-		return null;
-	} // end getById
-	
-	/**
-	 * Updates an existing user
-	 */
-	@Override
-	public void update(User user) {
-		 String sql = "UPDATE users SET name=?, email=?, membership_type=?, employee_id=? "
-                 + "WHERE user_id=?";
-		 
-		 try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-			 
-			 stmt.setString(1,  user.getName());
-			 stmt.setString(2,  user.getEmail);
-			 
-			 if (user instanceof Member member) {
-				 stmt.setString(3,  member.getMembershipType());
-				 stmt.setNull(4,  Types.VARCHAR);
-			 } else if (user instanceof Librarian librarian) {
-				 stmt.setNull(3,  Types.VARCHAR);
-				 stmt.setString(4,  librarian.getEmployeeId);
-			 }
-			 
-			 stmt.setInt(5,  user.getUserId);
-			 stmt.executeUpdate();
-			 
-		 } catch (SQLException e) {
-			 System.out.println("Failed to update user: " + user + "\n" + e.getMessage());
-		 }
-	} // end update
-	
-	/**
-	 * Deletes a user by ID
-	 */
-	@Override
-	public void delete(int id) {
-		String sql = "DELETE FROM users WHERE user_id=?";
-		
-		try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-			stmt.setInt(1, id);
-			stmt.executeUpdate();
-		} catch (SQLException e) {
-			System.out.println("Failed to delete user with id: " + id + "\n" + e.getMessage());
-		}
-	} // end delete
-	
-	/**
-	 * Returns all users
-	 */
-	@Override
-	public List<User> getAll() {
-		
-		List<User> users = new ArrayList<>();
-		String sql = "SELECT * FROM users";
-		
-		try (Statement stmt = conn.createStatement()) {
-			ResultSet rs = stmt.executeQuery(sql);
-			
-			while (rs.next()) {
-				users.add(mapRowToUser(rs));
-			}
-		} catch (SQLException e) {
-			System.out.println("Failed to fetch users: " + e.getMessage());
-		}
-		
-		return users;
-		
-	} // end getAll
-	
-	/**
-	 * Keyword search by name
-	 */
-	public List<User> search(String keyword) {
-		List<User> users = new ArrayList<>();
-		String sql = "SELECT * FROM users WHERE name LIKE ?";
-		
-		try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-			stmt.setString(1,  "%" + keyword + "%");
-			
-			ResultSet rs = stmt.executeQuery();
-			while (rs.next()) {
-				users.add(mapRowToUser(rs));
-			}
-		} catch (SQLException e) {
-			System.out.println("Search failed: " + e.getMessage());
-		}
-		return users;
-	} // end search
-	
-	/**
-	 * Helper method that converts a SQL row into a Member or a Librarian
-	 */
-	private User mapRowToUser(ResultSet rs) throws SQLException {
-		String type = rs.getString("user_type");
-		
-		if ("member".equals(type)) {
-			return new Member(
-					rs.getInt("user_id"),
-					rs.getString("name"),
-					rs.getString("email"),
-					rs.getString("membership_type")
-					);
-		} else {
-			return new Librarian (
-					rs.getInt("user_id"),
-					rs.getString("name"),
-					rs.getString("email"),
-					rs.getString("employee_id")
-					);
-		}
-	} // end mapRowToUser
-
-} // end class
-=======
-/*
-
-Description:
-Data-access class for User records (Members and Librarians).
-Implements Manageable<User> for CRUD and Searchable<User> for
-name-based search. Mirrors the structure of ItemManager so that
-the two classes remain consistent and easy to reason about.
-
-Inputs: User (Member or Librarian) instances or a user ID.
-Processing: executes parameterized SQL against the users table.
-Outputs: individual Users, lists of Users, or void for writes.
- */
 public class UserManager implements Manageable<User>, Searchable<User> {
-
+    /*
+    * Dispatcher method that routes to the correct add/update logic based on the User subclass. 
+    */
     @Override
     public void add(User user) {
         if (user instanceof Member) {
@@ -231,6 +42,9 @@ public class UserManager implements Manageable<User>, Searchable<User> {
         }
     }
 
+    /*
+     * Adds a Member to the database
+     */
     private void addMember(Member member) {
         String sql = "INSERT INTO users "
                 + "(name, email, user_type, membership_type) "
@@ -253,8 +67,10 @@ public class UserManager implements Manageable<User>, Searchable<User> {
         } catch (SQLException e) {
             throw new RuntimeException("Failed to add member: " + e.getMessage(), e);
         }
-    }
-
+    } // end addMember
+    /*
+     * Adds a Librarian to the database
+     */
     private void addLibrarian(Librarian librarian) {
         String sql = "INSERT INTO users "
                 + "(name, email, user_type, employee_id) "
@@ -277,8 +93,12 @@ public class UserManager implements Manageable<User>, Searchable<User> {
         } catch (SQLException e) {
             throw new RuntimeException("Failed to add librarian: " + e.getMessage(), e);
         }
-    }
+    } //end addLibrarian
 
+    /**
+	 * Retrieves a user by ID
+	 * Automatically returns a Member or Librarian depending on user_type
+	 */
     @Override
     public User getById(int id) throws UserNotFoundException {
         String sql = "SELECT * FROM users WHERE user_id = ?";
@@ -296,8 +116,13 @@ public class UserManager implements Manageable<User>, Searchable<User> {
         } catch (SQLException e) {
             throw new RuntimeException("Failed to fetch user: " + e.getMessage(), e);
         }
-    }
+    } //end getById
 
+
+    /*
+     * Updates a user in the database
+     * Automatically routes to the correct update logic based on user type
+     */
     @Override
     public void update(User user) {
         if (user instanceof Member) {
@@ -308,8 +133,11 @@ public class UserManager implements Manageable<User>, Searchable<User> {
             throw new IllegalArgumentException(
                     "Unknown user type: " + user.getClass().getSimpleName());
         }
-    }
+    } //end update
 
+    /*
+     * Updates a Member in the database
+     */
     private void updateMember(Member member) {
         String sql = "UPDATE users SET name = ?, email = ?, membership_type = ? "
                 + "WHERE user_id = ? AND user_type = 'member'";
@@ -325,8 +153,11 @@ public class UserManager implements Manageable<User>, Searchable<User> {
         } catch (SQLException e) {
             throw new RuntimeException("Failed to update member: " + e.getMessage(), e);
         }
-    }
+    } //end updateMember
 
+    /*
+     * Updates a Librarian in the database
+     */
     private void updateLibrarian(Librarian librarian) {
         String sql = "UPDATE users SET name = ?, email = ?, employee_id = ? "
                 + "WHERE user_id = ? AND user_type = 'librarian'";
@@ -342,8 +173,11 @@ public class UserManager implements Manageable<User>, Searchable<User> {
         } catch (SQLException e) {
             throw new RuntimeException("Failed to update librarian: " + e.getMessage(), e);
         }
-    }
+    } //end updateLibrarian
 
+    /**
+	 * Deletes a user by ID
+	 */
     @Override
     public void delete(int id) {
         String sql = "DELETE FROM users WHERE user_id = ?";
@@ -356,8 +190,11 @@ public class UserManager implements Manageable<User>, Searchable<User> {
         } catch (SQLException e) {
             throw new RuntimeException("Failed to delete user: " + e.getMessage(), e);
         }
-    }
+    } //end delete
 
+    /**
+	 * Returns all users
+	 */
     @Override
     public List<User> getAll() {
         List<User> users = new ArrayList<>();
@@ -374,8 +211,11 @@ public class UserManager implements Manageable<User>, Searchable<User> {
             throw new RuntimeException("Failed to fetch users: " + e.getMessage(), e);
         }
         return users;
-    }
+    } //end getAll
 
+    /**
+	 * Keyword search by name
+	 */
     @Override
     public List<User> search(String keyword) {
         List<User> users = new ArrayList<>();
@@ -400,9 +240,11 @@ public class UserManager implements Manageable<User>, Searchable<User> {
             throw new RuntimeException("Failed to search users: " + e.getMessage(), e);
         }
         return users;
-    }
+    } //end search
 
-    /** Map a ResultSet row to the correct User subclass based on user_type. */
+    /**
+	 * Helper method that converts a SQL row into a Member or a Librarian
+	 */
     private User mapRowToUser(ResultSet rs) throws SQLException {
         String type = rs.getString("user_type");
 
@@ -424,5 +266,4 @@ public class UserManager implements Manageable<User>, Searchable<User> {
             throw new SQLException("Unknown user_type in database: " + type);
         }
     }
-}
->>>>>>> project-branch-1
+} //end class

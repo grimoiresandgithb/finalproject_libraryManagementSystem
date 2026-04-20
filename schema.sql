@@ -2,7 +2,7 @@
 -- Library Management System - Database Schema
 -- Database: MariaDB
 -- Run this script once to create the database and tables.
--- ============================================================
+
 
 CREATE DATABASE IF NOT EXISTS library_db;
 USE library_db;
