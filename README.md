@@ -53,27 +53,27 @@ always close, even on errors.
 Install MariaDB locally (https://mariadb.org/download/) and make sure the
 server is running. Default port is 3306.
 
-### 3. Install a lightweight GUI for MariaDB, such as HeidiSQL
+### 2. Install a lightweight GUI for MariaDB, such as HeidiSQL
 
 Install HeidiSQL (https://www.heidisql.com/) to manager MariaDB, and for ease of use running the `schema.sql` file.
 
-### 2. Create the Database
+### 3. Create the Database
 
 Run `schema.sql` to create the database, tables, and sample
 data.
 
-### 3. Add the JDBC Driver
+### 4. Add the JDBC Driver
 
 If not in `lib`, download the latest mariadb jar file from
 https://mariadb.com/docs/connectors/mariadb-connector-j/about-mariadb-connector-j
 and place it in the `lib/` folder. The .classpath file should redirect automatically to the jar file. If the version is incorrect, change the version number to match what was downloaded in the classpath file.
 
-### 4. Update Credentials
+### 5. Update Credentials
 
 Open `src/data/DatabaseConnection.java` and update `USERNAME` and `PASSWORD`
 to match your local MariaDB setup.
 
-### 5. Import into Eclipse
+### 6. Import into Eclipse
 
 - File -> Import -> Existing Projects into Workspace
 - Browse to this folder and click Finish
@@ -81,7 +81,7 @@ to match your local MariaDB setup.
 - Right-click the project -> Build Path -> Configure Build Path ->
   verify `mariadb-java-client-3.X.X.jar` is listed under Libraries
 
-### 6. Run
+### 7. Run
 
 Right-click `src/app/Main.java` -> Run As -> Java Application
 
