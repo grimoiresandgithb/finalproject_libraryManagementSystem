@@ -4,11 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-<<<<<<< HEAD
-=======
-/*
- Description:
- Centralized utility class responsible for creating and closing
+/*Centralized utility class responsible for creating and closing
  JDBC Connection objects to the MariaDB library_db database. All
  Manager classes obtain their connections through this class so
  that credentials and JDBC URL construction are defined in exactly  one place.
@@ -25,35 +21,7 @@ NOTE: Before running the application, update USERNAME and PASSWORD
 below to match your local MariaDB installation, and make sure
 the mariadb-java-client JAR is on the classpath.
  */
->>>>>>> project-branch-1
 public class DatabaseConnection {
-	
-	private static final String SERVER = "localhost";
-	private static final int PORT = 3306;
-	private static final String DATABASE = "library_db";
-	private static final String USERNAME = "root";
-	private static final String PASSWORD = "";
-	
-	public static Connection getConnection() {
-		try {
-			String url = "jdbc:mariadb://" + SERVER + ":" + PORT + "/" + DATABASE;
-			return DriverManager.getConnection(url, USERNAME, PASSWORD);
-			
-		} catch (SQLException e) {
-			System.out.println("Database connection failed: " + e.getMessage());
-			return null;
-		}
-	}
-	
-	public static void closeConnection(Connection conn) {
-		if (conn != null) {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				System.out.println("Failed to close connection: " + e.getMessage());
-			}
-		}
-	}
 
     // ---- Connection constants ----
     private static final String SERVER   = "localhost";
@@ -65,7 +33,7 @@ public class DatabaseConnection {
     private static final String URL =
             "jdbc:mariadb://" + SERVER + ":" + PORT + "/" + DATABASE;
 
-    /* Prevent instantiation - this class only exposes static helpers. */
+    //Prevent instantiation
     private DatabaseConnection() {}
 
     /*Open and return a new database connection. Callers are responsible
@@ -88,7 +56,7 @@ public class DatabaseConnection {
         }
     }
 
-    /* Safely close a connection, ignoring nulls and swallowing close errors. */
+    //Safely close a connection, ignoring nulls and swallowing close errors.
     public static void closeConnection(Connection conn) {
         if (conn != null) {
             try {

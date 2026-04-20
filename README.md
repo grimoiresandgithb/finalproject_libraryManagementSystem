@@ -55,16 +55,14 @@ server is running. Default port is 3306.
 
 ### 2. Create the Database
 
-Run `schema.sql` to create the `library_db` database, tables, and sample
-data:
-
-    mysql -u root -p < schema.sql
+Run `schema.sql` to create the database, tables, and sample
+data.
 
 ### 3. Add the JDBC Driver
 
-Download `mariadb-java-client-3.3.3.jar` from
-https://repo1.maven.org/maven2/org/mariadb/jdbc/mariadb-java-client/3.3.3/
-and place it in the `lib/` folder. See `lib/README.txt` for details.
+If not in `lib`, download the latest mariadb jar file from
+https://mariadb.com/docs/connectors/mariadb-connector-j/about-mariadb-connector-j
+and place it in the `lib/` folder. The .classpath file should redirect automatically to the jar file. If the version is incorrect, change the version number to match what was downloaded in the classpath file.
 
 ### 4. Update Credentials
 
@@ -77,7 +75,7 @@ to match your local MariaDB setup.
 - Browse to this folder and click Finish
 - Right-click the project -> Refresh (F5)
 - Right-click the project -> Build Path -> Configure Build Path ->
-  verify `mariadb-java-client-3.3.3.jar` is listed under Libraries
+  verify `mariadb-java-client-3.X.X.jar` is listed under Libraries
 
 ### 6. Run
 

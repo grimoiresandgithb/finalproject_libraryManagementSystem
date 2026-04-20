@@ -7,24 +7,20 @@ import data.ItemManager;
 import data.LoanManager;
 import data.UserManager;
 import exception.ItemNotFoundException;
-import exception.ItemNotAvailableException;
+import exception.ItemUnavailableException;
 import exception.UserNotFoundException;
 import model.Item;
 import model.Loan;
 import model.Member;
 import model.User;
 
-/*
- Description:
- Coordinates business logic across ItemManager, UserManager, and
-LoanManager. The CLI layer (Main) talks to LibraryService rather
-than the managers directly, keeping business rules (e.g. "you
-can't check out an item that is already on loan") in one place.
+/*Coordinates business logic across ItemManager, UserManager, and LoanManager. The CLI layer (Main) talks to LibraryService rather
+than the managers directly, keeping business rules (e.g. "you can't check out an item that is already on loan") in one place.
 Inputs: member IDs, item IDs, loan IDs, and search keywords.
 Processing: validates pre-conditions, delegates DB work to the
 managers, and enforces business rules between them.
 Outputs: domain objects (Items, Loans) or void for state changes.
- */
+The UI is a simple and accessible CLI */
 public class LibraryService {
 
     private static final int DEFAULT_LOAN_DAYS = 14;
@@ -52,7 +48,7 @@ public class LibraryService {
     public Loan checkoutItem(int memberId, int itemId)
             throws UserNotFoundException,
                    ItemNotFoundException,
-                   ItemNotAvailableException {
+                   ItemUnavailableException {
 
         User user = userManager.getById(memberId);
         if (!(user instanceof Member)) {
@@ -63,7 +59,7 @@ public class LibraryService {
 
         Item item = itemManager.getById(itemId);
         if (!item.isAvailable()) {
-            throw new ItemNotAvailableException(item.getId(), item.getTitle());
+            throw new ItemUnavailableException(item.getId(), item.getTitle());
         }
 
         LocalDate today = LocalDate.now();

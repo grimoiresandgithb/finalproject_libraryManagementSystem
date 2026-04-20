@@ -4,38 +4,17 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
-import data.ItemManager;
-import data.LoanManager;
-import data.UserManager;
-import exception.InvalidInputException;
-import exception.ItemNotFoundException;
-import exception.ItemNotAvailableException;
-import exception.UserNotFoundException;
-import model.Book;
-import model.DVD;
-import model.Item;
-import model.Librarian;
-import model.Loan;
-import model.Member;
-import model.User;
+import data.*;
+import exception.*;
+import model.*;
 import service.LibraryService;
 
-/**
- * Main.java
- * Date: April 19 2026
- *
- * Description:
- *   Application entry point and command-line interface. Creates the
- *   data-access managers, wires them into LibraryService, and runs an
- *   interactive menu loop. All user input is validated before being
- *   passed to the service layer - invalid input results in a clear
- *   error message and a re-prompt rather than a crash.
- *
- *   Inputs: keyboard input via Scanner (menu choices and data values).
- *   Processing: dispatches menu selections to manager / service calls,
- *               performs input validation, formats results for display.
- *   Outputs: formatted text rendered to System.out / System.err.
- */
+/* Main.java
+Date: April 19 2026
+
+Application entry point and command-line interface. Creates the data-access managers, wires them into LibraryService, and runs an
+interactive menu loop. All user input is validated before being passed to the service layer - invalid input results in a clear
+error message and a re-prompt rather than a crash. */
 public class Main {
 
     /*Shared Scanner - reused across all input helpers so we don't
@@ -482,7 +461,7 @@ public class Main {
             System.out.println(loan);
         } catch (UserNotFoundException
                 | ItemNotFoundException
-                | ItemNotAvailableException
+                | ItemUnavailableException
                 | InvalidInputException e) {
             System.err.println("Error: " + e.getMessage());
         }
